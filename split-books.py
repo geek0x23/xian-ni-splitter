@@ -11,23 +11,25 @@ import zipfile
 @click.argument("source", type=click.Path(exists=True))
 def run(source):
     """Converts the massive single-book EPUB for Renegade Immortal into individual EPUBS (one per book)"""
-    compiler = Compiler()
+    hb = Compiler()
+    cwd = Path(__file__).parent
 
-    content_opf_template = compiler.compile(Path("templates/content.opf.hbs").read_text(encoding="utf-8"));
-    contents_xhtml_template = compiler.compile(Path("templates/contents.xhtml.hbs").read_text(encoding="utf-8"));
-    title_page_xhtml_template = compiler.compile(Path("templates/title-page.xhtml.hbs").read_text(encoding="utf-8"));
-    toc_ncx_template = compiler.compile(Path("templates/toc.ncx.hbs").read_text(encoding="utf-8"));
+    templates_path = cwd.joinpath("templates");
+    content_opf_template = hb.compile(templates_path.joinpath("content.opf.hbs").read_text(encoding="utf-8"))
+    contents_xhtml_template = hb.compile(templates_path.joinpath("contents.xhtml.hbs").read_text(encoding="utf-8"))
+    title_page_xhtml_template = hb.compile(templates_path.joinpath("title-page.xhtml.hbs").read_text(encoding="utf-8"))
+    toc_ncx_template = hb.compile(templates_path.joinpath("toc.ncx.hbs").read_text(encoding="utf-8"))
 
     print("Cleaning up from previous runs.")
-    staging_path = Path.cwd().joinpath("staging")
-    out_path = Path.cwd().joinpath("out")
-    source_path = Path.cwd().joinpath("source")
+    staging_path = cwd.joinpath("staging")
+    out_path = cwd.joinpath("out")
+    source_path = cwd.joinpath("source")
     shutil.rmtree(staging_path, ignore_errors=True)
     shutil.rmtree(out_path, ignore_errors=True)
     shutil.rmtree(source_path, ignore_errors=True)
-    os.makedirs(staging_path, 0o755)
-    os.makedirs(out_path, 0o755)
-    os.makedirs(source_path, 0o755)
+    staging_path.mkdir(0o755, True, True)
+    out_path.mkdir(0o755, True, True)
+    source_path.mkdir(0o755, True, True)
 
     print("Decompressing source EPUB.")
     with zipfile.ZipFile(source, "r") as zipf:
@@ -42,11 +44,11 @@ def run(source):
         css_path = oebps_path.joinpath("css")
         images_path = oebps_path.joinpath("images")
 
-        os.makedirs(book_path, 0o755)
-        os.makedirs(meta_inf_path, 0o755)
-        os.makedirs(oebps_path, 0o755)
-        os.makedirs(css_path, 0o755)
-        os.makedirs(images_path, 0o755)
+        book_path.mkdir(0o755, True, True)
+        meta_inf_path.mkdir(0o755, True, True)
+        oebps_path.mkdir(0o755, True, True)
+        css_path.mkdir(0o755, True, True)
+        images_path.mkdir(0o755, True, True)
 
         print(" - Copying static contents.")
         shutil.copy2(source_path.joinpath("META-INF", "com.apple.ibooks.display-options.xml"), meta_inf_path)
@@ -84,15 +86,15 @@ def run(source):
         print(" - Generating EPUB file.")
         out_epub_path = out_path.joinpath("Renegade Immortal - Book {0} - {1}.epub".format(book.number, book.title))
         with zipfile.ZipFile(out_epub_path, "w", compresslevel=9) as zipf:
-            for root, subdirs, files in os.walk(book_path):
+            for root, subdirs, files in os.walk(book_path): # Path.walk() needs Python 3.12, but Alma only ships 3.9
                 for file in files:
-                    full_file_name = os.path.join(root, file)
+                    file_path = Path(root, file)
                     method = zipfile.ZIP_DEFLATED
-                    file_size = os.path.getsize(full_file_name)
+                    file_size = file_path.stat().st_size
                     if file_size < 23: # Minimum compressed size is 22 bytes, so we don't bother compressing.
                         method = zipfile.ZIP_STORED
 
-                    zipf.write(full_file_name, os.path.relpath(full_file_name, book_path), compress_type=method)
+                    zipf.write(file_path, file_path.relative_to(book_path), compress_type=method)
 
         print(" - Book complete!\n")
 
