@@ -1,0 +1,83 @@
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="pub-id" version="2.0">
+  <metadata xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:title id="title">Renegade Immortal - Book {{number}} - {{title}}</dc:title>
+    <dc:creator opf:role="aut">Er Gen</dc:creator>
+    <dc:contributor opf:role="trl">Rex</dc:contributor>
+    <dc:language>en</dc:language>
+    <dc:rights>Copyright 2021 Er Gen. All rights reserved.</dc:rights>
+    <dc:publisher>Wuxiaworld Limited</dc:publisher>
+    <dc:identifier id="pub-id" opf:scheme="UUID">{{pub_id}}</dc:identifier>
+    <meta name="schema:accessMode"
+          content="textual" />
+    <meta name="schema:accessModeSufficient"
+          content="textual" />
+    <meta name="schema:accessibilityFeature"
+          content="structuralNavigation" />
+    <meta name="schema:accessibilityFeature"
+          content="tableOfContents" />
+    <meta name="schema:accessibilityFeature"
+          content="readingOrder" />
+    <meta name="schema:accessibilityHazard"
+          content="none" />
+    <meta name="schema:accessibilitySummary"
+          content="The structure and markup of this publication follow WCAG guidelines. This summary has been automatically generated based on the content of this publication." />
+    <meta name="generator"
+          content="Vellum" />
+    <meta name="vellum-version"
+          content="2.8.5" />
+    <meta name="vellum-target-platform"
+          content="Generic" />
+    <meta name="cover"
+          content="cover-image" />
+  </metadata>
+  <manifest>
+    <item id="ncx"
+          href="toc.ncx"
+          media-type="application/x-dtbncx+xml" />
+    <item id="Cover"
+          href="cover.xhtml"
+          media-type="application/xhtml+xml" />
+    <item id="title-page-xhtml"
+          href="title-page.xhtml"
+          media-type="application/xhtml+xml" />
+    <item id="copyright-xhtml"
+          href="copyright.xhtml"
+          media-type="application/xhtml+xml" />
+    <item id="contents-xhtml"
+          href="contents.xhtml"
+          media-type="application/xhtml+xml" />
+    {{#each chapters}}
+    <item id="chapter-{{padded_number}}-xhtml"
+          href="{{file_name}}"
+          media-type="application/xhtml+xml" />
+    {{/each}}
+    <item id="cover-image"
+          href="images/xn.jpg"
+          media-type="image/jpeg" />
+    <item id="vellum-created-png"
+          href="images/vellum-created.png"
+          media-type="image/png" />
+    <item id="media-css"
+          href="css/media.css"
+          media-type="text/css" />
+    <item id="style-css"
+          href="css/style.css"
+          media-type="text/css" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="Cover" />
+    <itemref idref="title-page-xhtml" />
+    <itemref idref="copyright-xhtml" />
+    <itemref idref="contents-xhtml" />
+    {{#each chapters}}
+    <itemref idref="chapter-{{padded_number}}-xhtml" />
+    {{/each}}
+  </spine>
+  <guide>
+    <reference href="cover.xhtml" title="Cover" type="cover" />
+    <reference href="title-page.xhtml" title="Title Page" type="titlepage" />
+    <reference href="copyright.xhtml" title="Copyright" type="copyright-page" />
+    <reference href="contents.xhtml" title="Contents" type="toc" />
+    <reference href="{{chapters[0].file_name}}" title="Beginning" type="text" />
+  </guide>
+</package>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="en" xmlns:epub="http://www.idpf.org/2007/ops" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <title>Contents</title>
+  <link rel="stylesheet"
+        type="text/css"
+        href="css/style.css" />
+  <link rel="stylesheet"
+        type="text/css"
+        href="css/media.css" />
+</head>
+<body>
+  <div id="table-of-contents" class="element element-non-bodymatter element-container-single element-type-toc">
+    <div class="toc-heading"><h1 class="toc-title">Contents</h1></div>
+    <div class="toc-contents text">
+    <div class="toc-bodymatter-group">
+      {{#each chapters}}
+      <div class="toc-item toc-item-entry-type-chapter toc-item-element-container-single has-leading-number has-no-author has-no-children">
+        <p class="item-title"><span class="item-number">{{number}}. </span><a href="{{file_name}}"><span class="item-title-text">{{title}}</span></a></p>
+      </div>
+      {{/each}}
+    </div>
+    </div>
+  </div>
+</body>
+</html>
