@@ -10,10 +10,8 @@ First grab dependencies:
 $ pip install -r requirements.txt
 ```
 
-Next, you need to decompress the combined EPUB file from Wuxia World.  The good news is that EPUB files are just zip files in disguise, so you can use your favorite ZIP tool to decompress everything.  Place the files in `./source`.
-
-Finally, just run `split-books.py` using Python:
+Next, just run `split-books.py` using Python:
 
 ```sh
-$ python split-books.py
+$ python split-books.py path/to/renegade-immortal.epub
 ```
