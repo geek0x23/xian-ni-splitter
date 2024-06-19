@@ -7,11 +7,11 @@ When I downloaded the EPUB file for Renegade Immortal from Wuxia World, I notice
 First grab dependencies:
 
 ```sh
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Next, just run `split-books.py` using Python:
 
 ```sh
-$ python split-books.py path/to/renegade-immortal.epub
+python split-books.py path/to/renegade-immortal.epub
 ```
