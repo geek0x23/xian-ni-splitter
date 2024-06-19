@@ -82,7 +82,7 @@ def run(source):
             shutil.copy2(source_chapter_path, dest_chapter_path)
 
         print(" - Generating EPUB file.")
-        out_epub_path = out_path.joinpath("Renegade Immortal - Book {0}.epub".format(book.number))
+        out_epub_path = out_path.joinpath("Renegade Immortal - Book {0} - {1}.epub".format(book.number, book.title))
         with zipfile.ZipFile(out_epub_path, "w", compresslevel=9) as zipf:
             for root, subdirs, files in os.walk(book_path):
                 for file in files:
