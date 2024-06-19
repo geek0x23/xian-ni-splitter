@@ -1,19 +1,18 @@
+from books import books
 from pybars import Compiler
 from pathlib import Path
+
 import click
 import shutil
 import os
 import zipfile
 
-compiler = Compiler()
-
-from books import books
-
-
 @click.command()
 @click.argument("source", type=click.Path(exists=True))
 def run(source):
     """Converts the massive single-book EPUB for Renegade Immortal into individual EPUBS (one per book)"""
+    compiler = Compiler()
+
     content_opf_template = compiler.compile(Path("templates/content.opf.hbs").read_text(encoding="utf-8"));
     contents_xhtml_template = compiler.compile(Path("templates/contents.xhtml.hbs").read_text(encoding="utf-8"));
     title_page_xhtml_template = compiler.compile(Path("templates/title-page.xhtml.hbs").read_text(encoding="utf-8"));
@@ -50,7 +49,6 @@ def run(source):
         os.makedirs(images_path, 0o755)
 
         print(" - Copying static contents.")
-        source_path = Path.cwd().joinpath("source")
         shutil.copy2(source_path.joinpath("META-INF", "com.apple.ibooks.display-options.xml"), meta_inf_path)
         shutil.copy2(source_path.joinpath("META-INF", "container.xml"), meta_inf_path)
         shutil.copy2(source_path.joinpath("OEBPS", "copyright.xhtml"), oebps_path.joinpath("copyright.xhtml"))
