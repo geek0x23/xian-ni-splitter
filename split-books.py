@@ -9,7 +9,7 @@ import zipfile
 
 @click.command()
 @click.argument('source', type=click.Path(exists=True))
-def run(source):
+def run(source: str):
     '''Converts the massive single-book EPUB for Renegade Immortal into individual EPUBS (one per book)'''
     hb = Compiler()
     cwd = Path(__file__).parent

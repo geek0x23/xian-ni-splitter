@@ -1,21 +1,25 @@
 import uuid
 
-class Book:
-    def __init__(self, number, title):
-        self.number = number
-        self.title = title
-        self.pub_id = str(uuid.uuid4()).upper()
-        self.chapters = []
-
 class Chapter:
-    def __init__(self, number, file_name, title):
+    def __init__(self, number: int, file_name: str, title: str):
         self.number = number
         self.padded_number = f'{number:03d}'
         self.file_name = file_name
         self.title = title
         self.nav_point = number + 4
 
-books = []
+ChapterCollection = list[Chapter]
+
+class Book:
+    def __init__(self, number: int, title: str):
+        self.number = number
+        self.title = title
+        self.pub_id = str(uuid.uuid4()).upper()
+        self.chapters = ChapterCollection()
+
+BookCollection = list[Book]
+
+books = BookCollection()
 
 book1 = Book(1, u'The Mediocre Youth')
 book1.chapters.append(Chapter(1, 'chapter-001.xhtml', 'Leaving Home'))
