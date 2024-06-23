@@ -14,7 +14,8 @@ def run(source):
     hb = Compiler()
     cwd = Path(__file__).parent
 
-    templates_path = cwd.joinpath('templates');
+    templates_path = cwd.joinpath('templates')
+    covers_path = cwd.joinpath('covers')
     content_opf_template = hb.compile(templates_path.joinpath('content.opf.hbs').read_text(encoding='utf-8'))
     contents_xhtml_template = hb.compile(templates_path.joinpath('contents.xhtml.hbs').read_text(encoding='utf-8'))
     title_page_xhtml_template = hb.compile(templates_path.joinpath('title-page.xhtml.hbs').read_text(encoding='utf-8'))
@@ -58,7 +59,7 @@ def run(source):
         shutil.copy2(source_path.joinpath('OEBPS', 'css', 'media.css'), css_path)
         shutil.copy2(source_path.joinpath('OEBPS', 'css', 'style.css'), css_path)
         shutil.copy2(source_path.joinpath('OEBPS', 'images', 'vellum-created.png'), images_path)
-        shutil.copy2(source_path.joinpath('OEBPS', 'images', 'xn.jpg'), images_path)
+        shutil.copy2(covers_path.joinpath(f'xn{book.number}.jpg'), images_path.joinpath('xn.jpg'))
         shutil.copy2(source_path.joinpath('mimetype'), book_path)
 
         print(' - Generating manifests and ToC.')
